@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JS 201</title>
+</head>
+<body>
+	<form action="GET">
+		<div>
+			<input type="button" id="btn" value="Star Wars Character">
+		</div>
+		<div id="fetchedInfo">
+			<h1 id="name">
+			</h1>
+			<h2 id="height">
+			</h2>
+			<h2 id="mass">
+			</h2>
+			<h2 id="hair_color">
+			</h2>
+			<h2 id="skin_color">
+			</h2>
+			<h2 id="eye_color">
+			</h2>
+			<h2 id="birth_year">
+			</h2>
+			<h2 id="gender">
+			</h2>
+			<h2 id="homeworld">
+			</h2>
+			<h2 id="films">	
+			</h2>
+			<h2 id="species">
+			</h2>
+			<h2 id="starships">	
+			</h2>
+			<h2 id="url">
+			</h2>
+			<h2 id="vehicles">
+			</h2>
+			<h3 id="created">
+			</h3>
+			<h3 id="edited">
+			</h3>
+
+		</div>
+	</form>
+
+	<script>
+		// "use strict";
+		// window.onbeforeunload = function(){
+		// 	console.log("You are leaving the site");
+		// 	return "Are you sure you want to leave?";
+		// }
+
+		// setTimeout(function(){
+		// 	console.log("two sec passed")
+		// }, 2000);
+
+		// let time = 0;
+		// let myInterval = setInterval(() => {
+		// 	console.log(time);
+		// 	time++;
+		// 	if(time >= 3){
+		// 		clearInterval(myInterval);
+		// 	}
+		// }, 1000);
+
+		// let count = 1;
+		// while(true){
+		// 	console.log(count);
+		// 	count++;
+		// 	if(count > 5){
+		// 		break;
+		// 	}
+		// }
+
+		// while(true){
+		// 	let name = prompt("What is yor name?");
+		// 	if(name === "Sungmo"){
+		// 		break;
+		// 		console.log("loop break");
+		// 	};
+		// }
+
+		// let d = new Date(2025, 0, 15);
+
+		// const months = ["Jan", "Feb", "Mar"];
+		// const [jan, feb] = months;
+		// console.log(jan, feb);
+
+		// let person = {
+		// 	"name": "Sungmo",
+		// 	"height":5.5,
+		// 	"favfood":"pizza",
+		// 	"eat": function(){
+		// 		console.log(`YumYum ${person["favfood"]}`);
+		// 	},
+
+		// 	speak: function(){
+		// 		console.log("Hello");
+		// 	}
+		// }
+
+		// let {name, height, favfood} = person;
+		// delete person.height;
+		
+		// while(true){
+		// 	let answer;
+		// 	let random = Math.ceil(Math.random() * 10);
+		// 	answer = Number(prompt("what is the random between 1-10?"));
+
+		// 	if(random === answer){
+		// 		console.log("you are correct!");
+		// 		break;
+		// 	}else{
+		// 		alert(`you guessed ${answer} but the number was ${random}`);
+		// 	}
+		// }
+		
+		// "use strict";
+		// const x = 10;
+		// try{
+		// 	x = 10;
+		// }catch(TypeError){
+		// 	console.warn("Error accured:", TypeError);
+		// }
+
+		// function fuc1(){
+		// 	console.log("fuc1");
+		// 	return null;
+		// }
+
+		// let fuc2 = function(){
+		// 	console.log("func2");
+		// }
+
+		// let fuc3 = () => {
+		// 	console.log("func3");
+		// }
+
+		// let fuc4 = () => console.log("func4");
+
+		// class myClass{
+		// 	setName(name){
+		// 		this.name = name;
+		// 	}
+		// 	speak(){
+		// 		console.log("meow", this.name);
+		// 	}
+
+		// 	constructor(){
+		// 		this.name = "Sam";
+		// 	}
+		// }
+
+		// const thing = new myClass;
+		// thing.speak();
+		// thing.setName("Sungmo");
+		// thing.speak();
+
+		// fetch("http://website.com/")
+		// 	.then(...)
+		//	.then(...)
+
+		// fetch('https://swapi.dev/api/people/2/')
+		// 	.then(response => response.json())
+		// 	.then(data =>{
+		// 		console.log(data);
+		// 	})
+		
+		const button = document.getElementById("btn");
+
+		// function getLastIndex(){
+		// 	let index = 1;
+		// 	let result;
+		// 	while(true){
+		// 		fetch(`https://swapi.dev/api/people/${index}`)
+		// 		 .catch(function(){
+		// 			result = index;
+		// 			index = 0;
+		// 		})
+		// 		if(index == 0){
+		// 			break;
+		// 		}
+		// 		index++;
+		// 	}
+		// 	return result;
+		// }
+
+		function getRandomURL(max){
+			const base = "https://swapi.dev/api/people";
+			let index = 1;
+			index = Math.ceil(Math.random()*max);
+			index = String(index);
+
+			return `${base}/${index}/`;
+		}
+
+		function drawCharacter(character){
+			console.log(character["name"]);
+			let obj={};
+			obj =character;
+			console.log(obj);
+			for(const value in character){
+				document.getElementById(`${value}`).innerText=`${value}:${character[value]}`;
+			}
+		}
+
+		function fetchStarWars(){
+			let character={};
+			let fetchedJSON;
+
+			fetch(getRandomURL(70))
+				.then(response => response.json())
+				.then(data =>{
+					fetchedJSON = JSON.stringify(data);
+				})
+				.then(()=>{
+					character = JSON.parse(fetchedJSON);
+				})
+				.then(()=>{
+					drawCharacter(character);
+				})
+			
+			return 0;
+		}
+
+		button.addEventListener("click", fetchStarWars);
+
+	</script>
+</body>
+</html>
